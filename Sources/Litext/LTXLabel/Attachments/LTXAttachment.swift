@@ -13,6 +13,8 @@ import Foundation
 @MainActor
 open class LTXAttachment {
     open var size: CGSize
+    open var ascentOverride: CGFloat?
+    open var descentOverride: CGFloat?
 
     #if !os(watchOS)
         /// The platform view to embed as an inline attachment (iOS/macOS/tvOS/visionOS).
@@ -46,11 +48,11 @@ open class LTXAttachment {
                 },
                 getAscent: { refCon in
                     let attachment = Unmanaged<LTXAttachment>.fromOpaque(refCon).takeUnretainedValue()
-                    return attachment.size.height * 0.9
+                    return attachment.ascentOverride ?? attachment.size.height * 0.9
                 },
                 getDescent: { refCon in
                     let attachment = Unmanaged<LTXAttachment>.fromOpaque(refCon).takeUnretainedValue()
-                    return attachment.size.height * 0.1
+                    return attachment.descentOverride ?? attachment.size.height * 0.1
                 },
                 getWidth: { refCon in
                     let attachment = Unmanaged<LTXAttachment>.fromOpaque(refCon).takeUnretainedValue()

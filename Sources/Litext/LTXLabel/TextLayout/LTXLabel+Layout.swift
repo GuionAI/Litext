@@ -38,7 +38,7 @@ import QuartzCore
                 constraintSize.width = lastContainerSize.width
             }
 
-            return textLayout.suggestContainerSize(
+            return textLayout.suggestVisualContainerSize(
                 withSize: constraintSize
             )
         }

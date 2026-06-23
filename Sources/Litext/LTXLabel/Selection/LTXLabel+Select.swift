@@ -69,6 +69,16 @@ import QuartzCore
             selectionRange = lineRange
         }
 
+        func selectCharacterAtIndex(_ index: Int) {
+            guard isSelectable else { return }
+            let attributedString = textLayout.attributedString
+            guard attributedString.length > 0 else { return }
+            selectionRange = NSRange(
+                location: max(0, min(index, attributedString.length - 1)),
+                length: 1
+            )
+        }
+
         func selectAllRange() -> NSRange? {
             guard isSelectable else { return nil }
             let attributedString = textLayout.attributedString

@@ -206,6 +206,32 @@
                     addInteraction(pointerInteraction)
                 }
             }
+
+            func installTextLongPressInteraction() {
+                let recognizer = UILongPressGestureRecognizer(
+                    target: self,
+                    action: #selector(handleTextLongPress(_:))
+                )
+                addGestureRecognizer(recognizer)
+            }
+
+            @objc func handleTextLongPress(_ recognizer: UILongPressGestureRecognizer) {
+                guard isSelectable, recognizer.state == .began else { return }
+
+                let location = recognizer.location(in: self)
+                guard bounds.contains(location),
+                      !isLocationAboveAttachmentView(location: location)
+                else { return }
+
+                deactivateHighlightRegion()
+                guard let index = textIndexAtPoint(location) ?? nearestTextIndexAtPoint(location) else { return }
+
+                clearSelection()
+                selectWordAtIndex(index)
+                if selectionRange == nil {
+                    selectCharacterAtIndex(index)
+                }
+            }
         #endif
     }
 

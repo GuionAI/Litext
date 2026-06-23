@@ -24,9 +24,6 @@ import QuartzCore
         func highlightRegionAtPoint(_ point: CGPoint) -> LTXHighlightRegion? {
             for region in highlightRegions {
                 if isHighlightRegion(region, containsPoint: point) {
-                    if region.attributes[.link] == nil {
-                        continue
-                    }
                     return region
                 }
             }
