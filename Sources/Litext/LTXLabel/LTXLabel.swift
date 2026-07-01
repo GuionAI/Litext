@@ -175,6 +175,7 @@ import QuartzCore
             var clickCount: Int = 1
             var lastClickTime: TimeInterval = 0
             var isFirstMove: Bool = false
+            var hadSelectionAtInteractionBegin: Bool = false
         }
 
         struct Flags {

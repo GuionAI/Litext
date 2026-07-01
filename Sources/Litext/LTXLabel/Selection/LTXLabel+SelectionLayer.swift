@@ -47,10 +47,6 @@ import QuartzCore
             createSelectionLayer(withPath: selectionPath)
 
             #if canImport(UIKit) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
-                showSelectionMenuController()
-            #endif
-
-            #if canImport(UIKit) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
                 selectionHandleStart.isHidden = false
                 selectionHandleEnd.isHidden = false
 

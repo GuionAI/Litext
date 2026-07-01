@@ -156,20 +156,29 @@
             }
             let location = firstTouch.location(in: self)
             defer { deactivateHighlightRegion() }
+            let moved = isTouchReallyMoved(location)
+            let hasSelection = (selectionRange?.length ?? 0) > 0
 
-            if !isTouchReallyMoved(location),
-               interactionState.clickCount <= 1
-            {
-                if isLocationInSelection(location: location) {
+            if !moved, interactionState.clickCount <= 1 {
+                if interactionState.hadSelectionAtInteractionBegin {
+                    clearSelection()
+                    return
+                }
+                if hasSelection {
                     #if !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
                         showSelectionMenuController()
                     #endif
-                } else {
-                    clearSelection()
+                    return
                 }
+                clearSelection()
+            } else if moved, hasSelection {
+                #if !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
+                    showSelectionMenuController()
+                #endif
+                return
             }
 
-            guard selectionRange == nil, !isTouchReallyMoved(location) else { return }
+            guard selectionRange == nil, !moved else { return }
             outer: for region in highlightRegions {
                 let rects = region.rects.map {
                     convertRectFromTextLayout($0.cgRectValue, insetForInteraction: true)
@@ -216,20 +225,31 @@
             }
 
             @objc func handleTextLongPress(_ recognizer: UILongPressGestureRecognizer) {
-                guard isSelectable, recognizer.state == .began else { return }
+                guard isSelectable else { return }
 
                 let location = recognizer.location(in: self)
                 guard bounds.contains(location),
                       !isLocationAboveAttachmentView(location: location)
                 else { return }
 
-                deactivateHighlightRegion()
-                guard let index = textIndexAtPoint(location) ?? nearestTextIndexAtPoint(location) else { return }
+                switch recognizer.state {
+                case .began:
+                    deactivateHighlightRegion()
+                    guard let index = textIndexAtPoint(location) ?? nearestTextIndexAtPoint(location) else { return }
 
-                clearSelection()
-                selectWordAtIndex(index)
-                if selectionRange == nil {
-                    selectCharacterAtIndex(index)
+                    clearSelection()
+                    selectWordAtIndex(index)
+                    if selectionRange == nil {
+                        selectCharacterAtIndex(index)
+                    }
+                    interactionState.hadSelectionAtInteractionBegin = false
+                case .ended:
+                    guard selectionRange?.length ?? 0 > 0 else { return }
+                    #if !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
+                        showSelectionMenuController()
+                    #endif
+                default:
+                    break
                 }
             }
         #endif

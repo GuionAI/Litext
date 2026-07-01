@@ -10,6 +10,7 @@ import Foundation
     @MainActor
     protocol LTXSelectionHandleDelegate: AnyObject {
         func selectionHandleDidMove(_ type: LTXSelectionHandle.HandleType, toLocationInSuperView point: CGPoint)
+        func selectionHandleDidEndMoving()
     }
 
     public class LTXSelectionHandle: UIView {
@@ -120,7 +121,10 @@ import Foundation
                     height: frameAtGestureBegin.height
                 )
                 delegate?.selectionHandleDidMove(type, toLocationInSuperView: .init(x: newFrame.midX, y: newFrame.midY))
-            default: return
+            case .ended:
+                delegate?.selectionHandleDidEndMoving()
+            default:
+                return
             }
         }
 

@@ -59,18 +59,19 @@ import Foundation
             }
             interactionState.isFirstMove = true
 
-            if activateHighlightRegionAtPoint(location) {
+            bumpClickCountIfWithinTimeGap()
+            if !isSelectable {
+                if activateHighlightRegionAtPoint(location) { return }
                 return
             }
 
-            bumpClickCountIfWithinTimeGap()
-            if !isSelectable { return }
-
             if interactionState.clickCount <= 1 {
-                if isLocationInSelection(location: location) {
-                } else {
+                if interactionState.hadSelectionAtInteractionBegin {
                     clearSelection()
+                    return
                 }
+                if activateHighlightRegionAtPoint(location) { return }
+                clearSelection()
             } else if interactionState.clickCount == 2 {
                 if let index = textIndexAtPoint(location) {
                     selectWordAtIndex(index)

@@ -29,6 +29,10 @@
                 )
             }
         }
+
+        func selectionHandleDidEndMoving() {
+            showSelectionMenuController()
+        }
     }
 
 #endif

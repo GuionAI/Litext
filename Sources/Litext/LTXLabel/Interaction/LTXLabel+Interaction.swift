@@ -16,6 +16,7 @@ import Foundation
         func setInteractionStateToBegin(initialLocation: CGPoint) {
             interactionState.initialTouchLocation = initialLocation
             interactionState.isFirstMove = true
+            interactionState.hadSelectionAtInteractionBegin = (selectionRange?.length ?? 0) > 0
             isInteractionInProgress = true
         }
 
