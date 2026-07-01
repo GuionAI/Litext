@@ -120,10 +120,10 @@ import QuartzCore
             #endif
 
             #if canImport(UIKit)
-                let defaultColor = UIColor.systemBlue.withAlphaComponent(0.1)
+                let defaultColor = UIColor.systemBlue.withAlphaComponent(0.2)
                 selLayer.fillColor = (selectionBackgroundColor ?? defaultColor).cgColor
             #elseif canImport(AppKit)
-                let defaultColor = NSColor.linkColor.withAlphaComponent(0.1)
+                let defaultColor = NSColor.selectedTextBackgroundColor
                 selLayer.fillColor = (selectionBackgroundColor ?? defaultColor).cgColor
             #endif
 

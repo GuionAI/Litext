@@ -49,6 +49,10 @@ import Foundation
             let location = convert(event.locationInWindow, from: nil)
             setInteractionStateToBegin(initialLocation: location)
 
+            if isSelectable, window?.firstResponder !== self {
+                window?.makeFirstResponder(self)
+            }
+
             if isLocationAboveAttachmentView(location: location) {
                 super.mouseDown(with: event)
                 return
@@ -126,7 +130,6 @@ import Foundation
             }
 
             if isSelectable || highlightRegionAtPoint(point) != nil {
-                window?.makeFirstResponder(self)
                 return self
             }
             return super.hitTest(point)
