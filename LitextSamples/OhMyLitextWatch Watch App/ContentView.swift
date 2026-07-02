@@ -59,7 +59,12 @@ extension ContentView {
         s.append(attr("renders CoreText on Apple Watch.\n", font: body14, color: .white))
         s.append(attr("Bold • ", font: bold14, color: .white))
         s.append(attr("Colored • ", font: body14, color: UIColor(red: 0.2, green: 0.6, blue: 1, alpha: 1)))
-        s.append(attr("Underlined", font: body14, color: UIColor(red: 0.2, green: 0.8, blue: 0.4, alpha: 1), underline: true))
+        s.append(attr(
+            "Underlined",
+            font: body14,
+            color: UIColor(red: 0.2, green: 0.8, blue: 0.4, alpha: 1),
+            underline: true
+        ))
         return s
     }
 

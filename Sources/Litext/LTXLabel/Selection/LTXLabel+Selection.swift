@@ -35,8 +35,9 @@ import QuartzCore
 
     extension LTXLabel {
         func updateSelectionRange(withLocation location: CGPoint) {
-            guard let startIndex = textLayout.nearestTextIndex(at: convertPointForTextLayout(interactionState.initialTouchLocation)),
-                  let endIndex = textLayout.nearestTextIndex(at: convertPointForTextLayout(location))
+            guard let startIndex = textLayout
+                .nearestTextIndex(at: convertPointForTextLayout(interactionState.initialTouchLocation)),
+                let endIndex = textLayout.nearestTextIndex(at: convertPointForTextLayout(location))
             else { return }
             selectionRange = NSRange(
                 location: min(startIndex, endIndex),

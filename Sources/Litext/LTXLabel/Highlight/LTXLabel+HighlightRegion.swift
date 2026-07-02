@@ -67,7 +67,9 @@ import QuartzCore
                 #endif
             }
 
-            let highlightColor: PlatformColor = if let color = highlightRegion.attributes[.foregroundColor] as? PlatformColor {
+            let highlightColor: PlatformColor = if let color = highlightRegion
+                .attributes[.foregroundColor] as? PlatformColor
+            {
                 color
             } else {
                 .systemBlue
